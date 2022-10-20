@@ -1,11 +1,11 @@
-@extends('layouts.app')
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <!-- Header start -->
-    @if (!empty($country))
-        @include('includes.countryheader')
-    @else
-        @include('includes.header')
-    @endif
+    <?php if(!empty($country)): ?>
+        <?php echo $__env->make('includes.countryheader', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php else: ?>
+        <?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php endif; ?>
     <!-- Header end -->
     <style type="text/css">
         .newjbox.row li h4 a {
@@ -20,15 +20,15 @@
         }
     </style>
     <!-- Inner Page Title start -->
-    @include('includes.inner_page_title', ['page_title' => __('Latest Job Details')])
+    <?php echo $__env->make('includes.inner_page_title', ['page_title' => __('Latest Job Details')], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <!-- Inner Page Title end -->
     <div class="inner-page">
         <!-- About -->
-        @if (!empty($country))
+        <?php if(!empty($country)): ?>
             <div class="container">
                 <div class="contact-wrap">
                     <div class="title"><span><br></span>
-                        <!-- <h2>{{ __('LATEST JOBS 2020') }}</h2> -->
+                        <!-- <h2><?php echo e(__('LATEST JOBS 2020')); ?></h2> -->
 
                     </div>
 
@@ -42,7 +42,7 @@
                     <div class="job-header">
                         <div class="jobinfo">
 
-                            <h2><a href="#" class="custom-style">{{ $custom_jobs->title }}</a></h2>
+                            <h2><a href="#" class="custom-style"><?php echo e($custom_jobs->title); ?></a></h2>
 
 
                         </div>
@@ -54,22 +54,22 @@
 
                                 <ul class="jbdetail">
                                     <li class="row">
-                                        <div class="col-md-4 col-xs-5">{{ __('Jobs Location') }}:</div>
+                                        <div class="col-md-4 col-xs-5"><?php echo e(__('Jobs Location')); ?>:</div>
                                         <div class="col-md-8 col-xs-7">
 
-                                            <span>{{ $CountryDetail->country }},{{ $StateDetail->state }},{{ $CityDetail->city }}</span>
+                                            <span><?php echo e($CountryDetail->country); ?>,<?php echo e($StateDetail->state); ?>,<?php echo e($CityDetail->city); ?></span>
 
                                         </div>
                                     </li>
                                     <li class="row">
-                                        <div class="col-md-4 col-xs-5">{{ __('Newspaper Name') }}:</div>
-                                        <div class="col-md-8 col-xs-7"><span>{{ $custom_jobs->news_paper }}</span>
+                                        <div class="col-md-4 col-xs-5"><?php echo e(__('Newspaper Name')); ?>:</div>
+                                        <div class="col-md-8 col-xs-7"><span><?php echo e($custom_jobs->news_paper); ?></span>
                                         </div>
                                     </li>
 
 
                                     <li class="row">
-                                        <div class="col-md-4 col-xs-5">{{ __('Last Date to Apply') }}:</div>
+                                        <div class="col-md-4 col-xs-5"><?php echo e(__('Last Date to Apply')); ?>:</div>
                                         <div class="col-md-8 col-xs-7"><span><?php
                                         
                                         $last_date = date_create($custom_jobs->last_date);
@@ -77,7 +77,7 @@
                                         ?></span></div>
                                     </li>
                                     <li class="row">
-                                        <div class="col-md-4 col-xs-5">{{ __('Published Date') }}:</div>
+                                        <div class="col-md-4 col-xs-5"><?php echo e(__('Published Date')); ?>:</div>
                                         <div class="col-md-8 col-xs-7"><span><?php
                                         
                                         $date = date_create($custom_jobs->published_date);
@@ -94,11 +94,11 @@
                         <!-- Job Description start -->
                         <div class="job-header">
                             <div class="contentbox">
-                                <h3><i class="fa fa-file-text-o" aria-hidden="true"></i> {{ __('Job Description') }}</h3>
-                                <p>{!! $custom_jobs->description !!}</p>
+                                <h3><i class="fa fa-file-text-o" aria-hidden="true"></i> <?php echo e(__('Job Description')); ?></h3>
+                                <p><?php echo $custom_jobs->description; ?></p>
                                 <p>
-                                    <a href="{{ url('custom_jobs', $custom_jobs->image) }}" title="Click to view"
-                                        target="_blank"> <img src="{{ url('custom_jobs/', $custom_jobs->image) }}"></a>
+                                    <a href="<?php echo e(url('custom_jobs', $custom_jobs->image)); ?>" title="Click to view"
+                                        target="_blank"> <img src="<?php echo e(url('custom_jobs/', $custom_jobs->image)); ?>"></a>
                                 </p>
                             </div>
                         </div>
@@ -108,11 +108,11 @@
                     </div>
                 </div>
             </div>
-        @else
+        <?php else: ?>
             <div class="container">
                 <div class="contact-wrap">
                     <div class="title"><span><br></span>
-                        <!-- <h2>{{ __('LATEST JOBS 2020') }}</h2> -->
+                        <!-- <h2><?php echo e(__('LATEST JOBS 2020')); ?></h2> -->
 
                     </div>
 
@@ -126,7 +126,7 @@
                     <div class="job-header">
                         <div class="jobinfo">
 
-                            <h2><a href="#" class="custom-style">{{ $custom_jobs->title }}</a></h2>
+                            <h2><a href="#" class="custom-style"><?php echo e($custom_jobs->title); ?></a></h2>
 
 
                         </div>
@@ -138,22 +138,22 @@
 
                                 <ul class="jbdetail">
                                     <li class="row">
-                                        <div class="col-md-4 col-xs-5">{{ __('Jobs Location') }}:</div>
+                                        <div class="col-md-4 col-xs-5"><?php echo e(__('Jobs Location')); ?>:</div>
                                         <div class="col-md-8 col-xs-7">
 
-                                            <span>{{ $CountryDetail->country }},{{ $StateDetail->state }},{{ $CityDetail->city }}</span>
+                                            <span><?php echo e($CountryDetail->country); ?>,<?php echo e($StateDetail->state); ?>,<?php echo e($CityDetail->city); ?></span>
 
                                         </div>
                                     </li>
                                     <li class="row">
-                                        <div class="col-md-4 col-xs-5">{{ __('Newspaper Name') }}:</div>
-                                        <div class="col-md-8 col-xs-7"><span>{{ $custom_jobs->news_paper }}</span>
+                                        <div class="col-md-4 col-xs-5"><?php echo e(__('Newspaper Name')); ?>:</div>
+                                        <div class="col-md-8 col-xs-7"><span><?php echo e($custom_jobs->news_paper); ?></span>
                                         </div>
                                     </li>
 
 
                                     <li class="row">
-                                        <div class="col-md-4 col-xs-5">{{ __('Last Date to Apply') }}:</div>
+                                        <div class="col-md-4 col-xs-5"><?php echo e(__('Last Date to Apply')); ?>:</div>
                                         <div class="col-md-8 col-xs-7"><span><?php
                                         
                                         $last_date = date_create($custom_jobs->last_date);
@@ -161,7 +161,7 @@
                                         ?></span></div>
                                     </li>
                                     <li class="row">
-                                        <div class="col-md-4 col-xs-5">{{ __('Published Date') }}:</div>
+                                        <div class="col-md-4 col-xs-5"><?php echo e(__('Published Date')); ?>:</div>
                                         <div class="col-md-8 col-xs-7"><span><?php
                                         
                                         $date = date_create($custom_jobs->published_date);
@@ -178,11 +178,11 @@
                         <!-- Job Description start -->
                         <div class="job-header">
                             <div class="contentbox">
-                                <h3><i class="fa fa-file-text-o" aria-hidden="true"></i> {{ __('Job Description') }}</h3>
-                                <p>{!! $custom_jobs->description !!}</p>
+                                <h3><i class="fa fa-file-text-o" aria-hidden="true"></i> <?php echo e(__('Job Description')); ?></h3>
+                                <p><?php echo $custom_jobs->description; ?></p>
                                 <p>
-                                    <a href="{{ url('custom_jobs', $custom_jobs->image) }}" title="Click to view"
-                                        target="_blank"> <img src="{{ url('custom_jobs/', $custom_jobs->image) }}"></a>
+                                    <a href="<?php echo e(url('custom_jobs', $custom_jobs->image)); ?>" title="Click to view"
+                                        target="_blank"> <img src="<?php echo e(url('custom_jobs/', $custom_jobs->image)); ?>"></a>
                                 </p>
                             </div>
                         </div>
@@ -192,11 +192,9 @@
                     </div>
                 </div>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
-    @if (!empty($country))
-        @include('includes.countrybase_footer')
-    @else
-        @include('includes.footer')
-    @endif
-@endsection
+    <?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\saadmediajobcato\resources\views/contact/custom_jobs_details.blade.php ENDPATH**/ ?>

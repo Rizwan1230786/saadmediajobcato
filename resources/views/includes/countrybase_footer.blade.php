@@ -16,7 +16,7 @@
                 <h5>{{ __('Quick Links') }}</h5>
                 <!--Quick Links menu Start-->
                 <ul class="quicklinks">
-                    <li><a href="{{ route('index') }}">{{ __('Home') }}</a></li>
+                    <li><a href="{{ url('jobs-in-'.$country->slug) }}">{{ __('Home') }}</a></li>
                     <li><a href="{{ route('contact.us') }}">{{ __('Contact Us') }}</a></li>
                     <li class="postad"><a href="{{ route('post.job') }}">{{ __('Post a Job') }}</a></li>
                     <li><a href="{{ route('faq') }}">{{ __('FAQs') }}</a></li>

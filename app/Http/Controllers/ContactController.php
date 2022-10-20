@@ -122,7 +122,43 @@ class ContactController extends Controller
             return view('contact.custom_jobs')->with(compact('custom_jobs','CountryDetail', 'StateDetail','CityDetail'));
         }
     }
+     public function customJobDetailscountry($id,$slug){
 
+        $country=Country::where('slug',$slug)->first();
+        if (!empty($id)) {
+
+            $custom_jobs = CustomJobs::where(['id'=>$id,'country_id'=>$country->id])->first();
+            
+
+            $custom_jobs1 = json_decode(json_encode($custom_jobs),true);
+           
+//          echo "<PRE>";  print_r($custom_jobs1);
+
+             $country_id = $custom_jobs1['country_id'];
+             $state_id = $custom_jobs1['state_id'];
+             $city_id = $custom_jobs1['city_id'];
+
+//            echo "<PRE>";print_r($custom_jobs1);exit;
+            $CountryDetail = Country::where('id', $country_id)->first();
+//            $CountryDetail = json_decode(json_encode($CountryDetail),true);
+//            echo "<PRE>";print_r($CountryDetail);exit;
+            $StateDetail = State::where('id', $state_id)->first();
+//            $StateDetail = json_decode(json_encode($StateDetail),true);
+//            echo "<PRE>";print_r($StateDetail);exit;
+            $CityDetail = City::where('id', $city_id)->first();
+            $metatitle="Custome Jobs In " .$country->country;
+                $seo = (object) array(
+                        'seo_title' => $metatitle,
+                        'seo_description' => $metatitle,
+                        'seo_keywords' => $metatitle,
+                        'seo_other' => ''
+                );
+//            $CityDetail = json_decode(json_encode($CityDetail),true);
+//            echo "<PRE>";print_r($CityDetail);exit;
+            return view('contact.custom_jobs_details')->with(compact('custom_jobs','CountryDetail', 'StateDetail','CityDetail','country','seo'));
+
+        }
+     }
     public function postContact(ContactFormRequest $request)
     {
         $data['full_name'] = $request->input('full_name');

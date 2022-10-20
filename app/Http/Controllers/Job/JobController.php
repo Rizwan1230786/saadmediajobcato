@@ -56,7 +56,7 @@ class JobController extends Controller
          */
         public function __construct()
         {
-                $this->middleware('auth', ['except' => ['jobsByindustry','jobsByfuncationalarea','jobsBySearch', 'jobsBycountry', 'jobDetail', 'otherJobDetail']]);
+                $this->middleware('auth', ['except' => ['otherJobDetailcountry','jobDetailcountrybase','jobsByindustry','jobsByfuncationalarea','jobsBySearch', 'jobsBycountry', 'jobDetail', 'otherJobDetail']]);
 
                 $this->functionalAreas = DataArrayHelper::langFunctionalAreasArray();
                 $this->countries = DataArrayHelper::langCountriesArray();
@@ -812,7 +812,7 @@ class JobController extends Controller
         }
         public function jobsBySearch(Request $request)
         {
-                $country="";
+                $country=null;
                 $search = $request->query('search', '');
 
                 //        echo $search;exit;
@@ -1093,6 +1093,22 @@ class JobController extends Controller
                         ->with('getTitle', $getTitle)
                         ->with('other_job_details', $other_job_details);
         }
+        public function otherJobDetailcountry($mainId = '' , $slug)
+        {
+                $country=Country::where('slug',$slug)->first();
+                $getTitle = OtherWebsiteJob::where(['id'=> $mainId,'country_id'=>$country->id])->first();
+               
+                $title = $getTitle->title;
+                $metatitle="Other Website Jobs In " .$country->country;
+                $seo = (object) array(
+                        'seo_title' => $metatitle,
+                        'seo_description' => $metatitle,
+                        'seo_keywords' => $metatitle,
+                        'seo_other' => ''
+                );
+                $other_job_details = OtherWebsiteJob::where('id', '!=', $mainId)->where('title', 'LIKE', '%' . $title . '%')->orWhere('description', 'LIKE', '%' . $title . '%')->orWhere('country_id',$country->id)->orderBy('id', 'DESC')->get();
+                return view('job.other-list',compact('getTitle','other_job_details','country','seo'));
+        }
 
         public function jobDetail(Request $request, $job_slug)
         {
@@ -1170,6 +1186,82 @@ class JobController extends Controller
                         ->with('job', $job)
                         ->with('relatedJobs', $relatedJobs)
                         ->with('seo', $seo);
+        }
+        public function jobDetailcountrybase(Request $request, $job_slug , $slug1)
+        {
+                $country=Country::where('slug',$slug1)->first();
+                $job = Job::where(['slug'=>$job_slug,'country_id'=>$country->id])->firstOrFail();
+
+                //        $job = json_decode(json_encode($job),true);
+                //        echo "<PRE>";print_r($job);exit;
+
+                /*         * ************************************************** */
+                $search = '';
+                $job_titles = array();
+                $company_ids = array();
+                $industry_ids = array();
+                $job_skill_ids = (array) $job->getJobSkillsArray();
+                $functional_area_ids = (array) $job->getFunctionalArea('functional_area_id');
+                $country_ids = (array) $job->getCountry('country_id');
+                $state_ids = (array) $job->getState('state_id');
+                $city_ids = (array) $job->getCity('city_id');
+                $is_freelance = $job->is_freelance;
+                $career_level_ids = (array) $job->getCareerLevel('career_level_id');
+                $job_type_ids = (array) $job->getJobType('job_type_id');
+                $job_shift_ids = (array) $job->getJobShift('job_shift_id');
+                $gender_ids = (array) $job->getGender('gender_id');
+                $degree_level_ids = (array) $job->getDegreeLevel('degree_level_id');
+                $job_experience_ids = (array) $job->getJobExperience('job_experience_id');
+                $salary_from = 0;
+                $salary_to = 0;
+                $salary_currency = '';
+                $is_featured = 2;
+                $order_by = 'id';
+                $limit = 5;
+
+                //        echo "<PRE>";print_r($country_ids);exit;
+
+                $relatedJobs = $this->fetchJobs(
+                        $search,
+                        $job_titles,
+                        $company_ids,
+                        $industry_ids,
+                        $job_skill_ids,
+                        //            $functional_area_ids,
+                        //            $country_ids,
+                        //            $state_ids,
+                        //            $city_ids,
+                        //            $is_freelance,
+                        //            $career_level_ids,
+                        //            $job_type_ids,
+                        //            $job_shift_ids,
+                        //            $gender_ids,
+                        //            $degree_level_ids,
+                        //            $job_experience_ids,
+                        //            $salary_from,
+                        //            $salary_to,
+                        //            $salary_currency,
+                        //            $is_featured,
+                        //            $order_by,
+                        $limit
+                );
+              
+                
+
+                //        echo "<PRE>";print_r($relatedJobs);exit;
+
+
+                /*         * ***************************************** */
+
+                $seoArray = $this->getSEO((array) $job->functional_area_id, (array) $job->country_id, (array) $job->state_id, (array) $job->city_id, (array) $job->career_level_id, (array) $job->job_type_id, (array) $job->job_shift_id, (array) $job->gender_id, (array) $job->degree_level_id, (array) $job->job_experience_id);
+                /*         * ************************************************** */
+                $seo = (object) array(
+                        'seo_title' => $job->title,
+                        'seo_description' => $seoArray['description'],
+                        'seo_keywords' => $seoArray['keywords'],
+                        'seo_other' => ''
+                );
+                return view('job.detail',get_defined_vars());
         }
 
         /*     * ************************************************** */

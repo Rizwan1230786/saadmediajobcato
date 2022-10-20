@@ -2,6 +2,12 @@
 
 Route::get('company-home', 'Company\CompanyController@index')->name('company.home');
 Route::get('companies', 'Company\CompaniesController@company_listing')->name('company.listing');
+// country base companies/////
+Route::get('companies-in-{slug}', 'Company\CompaniesController@company_listing_country')->name('company_listing_country');
+Route::prefix('company-detail')->group(function () {
+    Route::get('{slug}_in_{slug2}', 'Company\CompaniesController@companyDetail_countrybase')->name('companyDetail_countrybase');
+});
+// end country base compnies///
 Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile');
 Route::put('update-company-profile', 'Company\CompanyController@updateCompanyProfile')->name('update.company.profile');
 Route::get('posted-jobs', 'Company\CompanyController@postedJobs')->name('posted.jobs');

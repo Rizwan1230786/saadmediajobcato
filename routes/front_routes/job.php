@@ -1,14 +1,23 @@
 <?php
 
+
 Route::get('other-job/{mainId}', 'Job\JobController@otherJobDetail')->name('other.job.detail');
 
+// country base other jobs////
+Route::get('other-job-detail/{mainId}/{slug}', 'Job\JobController@otherJobDetailcountry')->name('other.job.detail.country');
+Route::get('custom-job-details/{id}/{slug}', 'ContactController@customJobDetailscountry')->name('custom.job.details.country');
 
 Route::get('job/{slug}', 'Job\JobController@jobDetail')->name('job.detail');
+// country base job detail
+Route::prefix('jobdetail')->group(function () {
+    Route::get('/{slug}_in_{slug1}', 'Job\JobController@jobDetailcountrybase')->name('job.detailcountry');
+});
+// end
 Route::get('apply/{slug}', 'Job\JobController@applyJob')->name('apply.job');
 Route::post('apply/{slug}', 'Job\JobController@postApplyJob')->name('post.apply.job');
 Route::get('jobs', 'Job\JobController@jobsBySearch')->name('job.list');
 //country base job////////
-Route::get('jobs-in-{slug}', 'Job\JobController@jobsBycountry')->name('jobcountry.list');
+Route::get('jobs-in-{slug}', 'Job\JobController@jobsBycountry')->name('job.country.list');
 Route::get('functional_area_id-{id}/jobs-in-{slug}', 'Job\JobController@jobsByfuncationalarea')->name('jobsfunctional.list');
 Route::get('industry_id-{id}/jobs-in-{slug}', 'Job\JobController@jobsByindustry')->name('jobsByindustry.list');
 Route::get('add-to-favourite-job/{job_slug}', 'Job\JobController@addToFavouriteJob')->name('add.to.favourite');

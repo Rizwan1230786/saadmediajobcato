@@ -77,8 +77,8 @@
                                 <ul class="recomndjobs">
                                     @if(null!==($matchingJobs)) @foreach($matchingJobs as $match)
                                     <li>
-                                        <h4><a href="{{route('job.detail', [$match->slug])}}">{{$match->title}}</a></h4>
-                                        <p>{{$match->getCompany()->name}}</p>
+                                        <h4><a href="{{route('job.detail', [$match->slug])}}">{{$match->title ?? ''}}</a></h4>
+                                        <p>{{$match->getCompany()->name ?? ''}}</p>
                                     </li>
                                     @endforeach @endif
                                 </ul>
@@ -92,8 +92,8 @@
 								<ul class="followinglist">
 									@if(isset($followers) && null!==($followers)) @foreach($followers as $follow) @php $company = DB::table('companies')->where('slug',$follow->company_slug)->where('is_active',1)->first(); @endphp
 									<li>
-										<span>{{$company->name}}</span>
-										<p>{{$company->location}}</p>
+										<span>{{$company->name ?? ''}}</span>
+										<p>{{$company->location ?? ''}}</p>
 										<a href="{{route('company.detail',$company->slug)}}">{{__('View Details')}}</a>
 									</li>
 									@endforeach @endif

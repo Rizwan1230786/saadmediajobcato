@@ -69,7 +69,7 @@ class CompanyController extends Controller
         $data['companies']=Company::paginate(20);
         return view('company.listing')->with($data);
     }
-
+  
     public function companyProfile()
     {
         $countries = DataArrayHelper::defaultCountriesArray();

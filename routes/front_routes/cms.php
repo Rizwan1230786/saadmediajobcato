@@ -9,3 +9,4 @@ Route::get('contact-us-thanks', 'ContactController@thanks')->name('contact.us.th
 Route::get('custom-jobs', 'ContactController@showCustomJobs')->name('custom.jobs');
 
 Route::get('custom-job-details/{id?}', 'ContactController@customJobDetails')->name('custom.job.details');
+
