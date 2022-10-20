@@ -578,7 +578,9 @@ class JobController extends Controller
                 
                 $country=Country::where('slug',$slug)->first();
                 $search = $request->query('search', '');
-
+                $state_base_city=State::where('status',1)->with('cities',function ($c){
+                        $c->where('status',1);
+                    })->get();
                 //        echo $search;exit;
                 $job_titles =  $this->determineArray($request->query('job_title', array()));
                 $company_ids =  $this->determineArray($request->query('company_id', array()));
@@ -808,7 +810,8 @@ class JobController extends Controller
                         ->with('degreeLevelIdsArray', $degreeLevelIdsArray)
                         ->with('jobExperienceIdsArray', $jobExperienceIdsArray)
                         ->with('seo', $seo)
-                        ->with('country',$country);
+                        ->with('country',$country)
+                        ->with('state_base_city',$state_base_city);
         }
         public function jobsBySearch(Request $request)
         {

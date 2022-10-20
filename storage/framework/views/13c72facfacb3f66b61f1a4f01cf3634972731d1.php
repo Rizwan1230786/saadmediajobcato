@@ -22,10 +22,10 @@
     <!-- Inner Page Title end -->
     <div class="listpgWraper">
         <div class="container">
-            <form action="<?php echo e(route('job.list')); ?>" method="get">
-                <!-- Search Result and sidebar start -->
-                <div class="row">
-                    <?php if(!empty($country)): ?>
+            <?php if(!empty($country)): ?>
+                <form action="<?php echo e(route('job.country.list',['slug'=>$country->slug])); ?>" method="get">
+                    <!-- Search Result and sidebar start -->
+                    <div class="row">
                         <?php echo $__env->make('includes.countrybasejobs_list_side_bar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <div class="col-lg-6 col-sm-12">
                             <!-- Search List -->
@@ -44,10 +44,11 @@
                                                         <div class="col-md-8 col-sm-8">
                                                             <div class="jobimg"><?php echo e($company->printCompanyImage()); ?></div>
                                                             <div class="jobinfo">
-                                                                <h3><a href=" <?php echo e(url('jobdetail'.'/'.$job->slug.'_in_'.$country->slug)); ?>"
-                                                                        title="<?php echo e($job->title); ?>"><?php echo e($job->title); ?></a></h3>
+                                                                <h3><a href=" <?php echo e(url('jobdetail' . '/' . $job->slug . '_in_' . $country->slug)); ?>"
+                                                                        title="<?php echo e($job->title); ?>"><?php echo e($job->title); ?></a>
+                                                                </h3>
                                                                 <div class="companyName"><a
-                                                                        href=" <?php echo e(url('jobdetail'.'/'.$job->slug.'_in_'.$country->slug)); ?>"
+                                                                        href=" <?php echo e(url('jobdetail' . '/' . $job->slug . '_in_' . $country->slug)); ?>"
                                                                         title="<?php echo e($company->name); ?>"><?php echo e($company->name); ?></a>
                                                                 </div>
                                                                 <div class="location">
@@ -60,7 +61,7 @@
                                                         </div>
                                                         <div class="col-md-4 col-sm-4">
                                                             <div class="listbtn"><a
-                                                                    href=" <?php echo e(url('jobdetail'.'/'.$job->slug.'_in_'.$country->slug)); ?>"><?php echo e(__('View Details')); ?></a>
+                                                                    href=" <?php echo e(url('jobdetail' . '/' . $job->slug . '_in_' . $country->slug)); ?>"><?php echo e(__('View Details')); ?></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -79,7 +80,8 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="showreslt">
-                                            <?php echo e(__('Showing Pages')); ?> : <?php echo e($jobs->firstItem()); ?> - <?php echo e($jobs->lastItem()); ?>
+                                            <?php echo e(__('Showing Pages')); ?> : <?php echo e($jobs->firstItem()); ?> -
+                                            <?php echo e($jobs->lastItem()); ?>
 
                                             <?php echo e(__('Total')); ?> <?php echo e($jobs->total()); ?>
 
@@ -97,7 +99,9 @@
                             <?php if(isset($other_jobs) && count($other_jobs)): ?>
                                 <br><br><br>
                                 <?php if(!empty($country)): ?>
-                                    <h4 class="widget-title">Jobs on Other Websites in <?php echo e($country->country ?? 'empty'); ?></h4>
+                                    <h4 class="widget-title">Jobs on Other Websites in <?php echo e($country->country ?? 'empty'); ?>
+
+                                    </h4>
                                 <?php else: ?>
                                     <h4 class="widget-title"><?php echo e(__('Jobs on Other Websites')); ?></h4>
                                 <?php endif; ?>
@@ -110,21 +114,24 @@
                                             <div class="row">
                                                 <div class="col-md-8 col-sm-8">
                                                     <div class="jobimg">
-                                                        <?php echo e(ImgUploader::print_image("other_jobs/$job->logo", 100, 100)); ?></div>
+                                                        <?php echo e(ImgUploader::print_image("other_jobs/$job->logo", 100, 100)); ?>
+
+                                                    </div>
                                                     <div class="jobinfo">
-                                                        <h3><a href="<?php echo e(url('other-job-detail/'.$job->id.'/'.$country->slug)); ?>"
+                                                        <h3><a href="<?php echo e(url('other-job-detail/' . $job->id . '/' . $country->slug)); ?>"
                                                                 title="<?php echo e($job->title); ?>"><?php echo e($job->title); ?></a></h3>
                                                         <div class="companyName"><a href="#" target="_blank"
                                                                 title=""><?php echo e($job->company_name); ?></a></div>
                                                         <div class="location">
-                                                            <label class="fulltime" title="#"><?php echo e($job->job_type); ?></label>
+                                                            <label class="fulltime"
+                                                                title="#"><?php echo e($job->job_type); ?></label>
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4">
                                                     <div class="listbtn"><a
-                                                            href="<?php echo e(url('other-job-detail/'.$job->id.'/'.$country->slug)); ?>"><?php echo e(__('View All')); ?></a>
+                                                            href="<?php echo e(url('other-job-detail/' . $job->id . '/' . $country->slug)); ?>"><?php echo e(__('View All')); ?></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -156,7 +163,7 @@
                                                             style="max-width=100px; max-height:100px;"alt=""></div>
                                                     
                                                     <div class="jobinfo">
-                                                        <h3><a href="<?php echo e(url('custom-job-details/'.$customjob->id.'/'.$country->slug)); ?>"
+                                                        <h3><a href="<?php echo e(url('custom-job-details/' . $customjob->id . '/' . $country->slug)); ?>"
                                                                 title="<?php echo e($customjob->title); ?>"><?php echo e($customjob->title); ?></a>
                                                         </h3>
                                                         <div class="companyName"><a href="#" target="_blank"
@@ -170,7 +177,7 @@
                                                 </div>
                                                 <div class="col-md-4 col-sm-4">
                                                     <div class="listbtn"><a
-                                                            href="<?php echo e(url('custom-job-details/'.$customjob->id.'/'.$country->slug)); ?>"><?php echo e(__('View Details')); ?></a>
+                                                            href="<?php echo e(url('custom-job-details/' . $customjob->id . '/' . $country->slug)); ?>"><?php echo e(__('View Details')); ?></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -189,173 +196,186 @@
                                 <div class="gad"><?php echo $siteSetting->listing_page_vertical_ad; ?></div>
                             </div>
                         </div>
-                   <?php else: ?>
-                    <?php echo $__env->make('includes.job_list_side_bar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                    <div class="col-lg-6 col-sm-12">
-                        <!-- Search List -->
-                        <ul class="searchList">
-                            <!-- job start -->
-                            <?php if(isset($jobs) && count($jobs)): ?>
-                                <?php $count_1 = 1; ?>
-                                <?php $__currentLoopData = $jobs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $job): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <?php $company = $job->getCompany(); ?>
-                                    <?php if(isset($company)): ?>
-                                        <?php if($count_1 == 7): ?>
-                                            <li class="inpostad"><?php echo $siteSetting->listing_page_horizontal_ad; ?></li>
-                                        <?php else: ?>
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="jobimg"><?php echo e($company->printCompanyImage()); ?></div>
-                                                        <div class="jobinfo">
-                                                            <h3><a href="<?php echo e(route('job.detail', [$job->slug])); ?>"
-                                                                    title="<?php echo e($job->title); ?>"><?php echo e($job->title); ?></a></h3>
-                                                            <div class="companyName"><a
-                                                                    href="<?php echo e(route('company.detail', $company->slug)); ?>"
-                                                                    title="<?php echo e($company->name); ?>"><?php echo e($company->name); ?></a>
+                    </div>
+                    <?php echo $__env->make('includes.country.states', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>;
+                </form>
+            <?php else: ?>
+                <form action="<?php echo e(route('job.list')); ?>" method="get">
+                    <div class="row">
+                        <?php echo $__env->make('includes.job_list_side_bar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                        <div class="col-lg-6 col-sm-12">
+                            <!-- Search List -->
+                            <ul class="searchList">
+                                <!-- job start -->
+                                <?php if(isset($jobs) && count($jobs)): ?>
+                                    <?php $count_1 = 1; ?>
+                                    <?php $__currentLoopData = $jobs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $job): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $company = $job->getCompany(); ?>
+                                        <?php if(isset($company)): ?>
+                                            <?php if($count_1 == 7): ?>
+                                                <li class="inpostad"><?php echo $siteSetting->listing_page_horizontal_ad; ?></li>
+                                            <?php else: ?>
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <div class="jobimg"><?php echo e($company->printCompanyImage()); ?></div>
+                                                            <div class="jobinfo">
+                                                                <h3><a href="<?php echo e(route('job.detail', [$job->slug])); ?>"
+                                                                        title="<?php echo e($job->title); ?>"><?php echo e($job->title); ?></a>
+                                                                </h3>
+                                                                <div class="companyName"><a
+                                                                        href="<?php echo e(route('company.detail', $company->slug)); ?>"
+                                                                        title="<?php echo e($company->name); ?>"><?php echo e($company->name); ?></a>
+                                                                </div>
+                                                                <div class="location">
+                                                                    <label class="fulltime"
+                                                                        title="<?php echo e($job->getJobType('job_type')); ?>"><?php echo e($job->getJobType('job_type')); ?></label>
+                                                                    - <span><?php echo e($job->getCity('city')); ?></span>
+                                                                </div>
                                                             </div>
-                                                            <div class="location">
-                                                                <label class="fulltime"
-                                                                    title="<?php echo e($job->getJobType('job_type')); ?>"><?php echo e($job->getJobType('job_type')); ?></label>
-                                                                - <span><?php echo e($job->getCity('city')); ?></span>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4">
+                                                            <div class="listbtn"><a
+                                                                    href="<?php echo e(route('job.detail', [$job->slug])); ?>"><?php echo e(__('View Details')); ?></a>
                                                             </div>
                                                         </div>
-                                                        <div class="clearfix"></div>
                                                     </div>
-                                                    <div class="col-md-4 col-sm-4">
-                                                        <div class="listbtn"><a
-                                                                href="<?php echo e(route('job.detail', [$job->slug])); ?>"><?php echo e(__('View Details')); ?></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <p><?php echo e(str_limit(strip_tags($job->description), 150, '...')); ?></p>
-                                            </li>
+                                                    <p><?php echo e(str_limit(strip_tags($job->description), 150, '...')); ?></p>
+                                                </li>
+                                            <?php endif; ?>
+                                            <?php $count_1++; ?>
                                         <?php endif; ?>
-                                        <?php $count_1++; ?>
-                                    <?php endif; ?>
-                                    <!-- job end -->
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php endif; ?>
-                            <!-- job end -->
-                        </ul>
-                        <!-- Pagination Start -->
-                        <div class="pagiWrap">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="showreslt">
-                                        <?php echo e(__('Showing Pages')); ?> : <?php echo e($jobs->firstItem()); ?> - <?php echo e($jobs->lastItem()); ?>
+                                        <!-- job end -->
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php endif; ?>
+                                <!-- job end -->
+                            </ul>
+                            <!-- Pagination Start -->
+                            <div class="pagiWrap">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="showreslt">
+                                            <?php echo e(__('Showing Pages')); ?> : <?php echo e($jobs->firstItem()); ?> -
+                                            <?php echo e($jobs->lastItem()); ?>
 
-                                        <?php echo e(__('Total')); ?> <?php echo e($jobs->total()); ?>
+                                            <?php echo e(__('Total')); ?> <?php echo e($jobs->total()); ?>
 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 text-right">
+                                        <?php if(isset($jobs) && count($jobs)): ?>
+                                            <?php echo e($jobs->appends(request()->query())->links()); ?>
+
+                                        <?php endif; ?>
                                     </div>
                                 </div>
-                                <div class="col-md-7 text-right">
-                                    <?php if(isset($jobs) && count($jobs)): ?>
-                                        <?php echo e($jobs->appends(request()->query())->links()); ?>
+                            </div>
+                            <!-- Pagination end -->
+                            <?php if(isset($other_jobs) && count($other_jobs)): ?>
+                                <br><br><br>
+                                <?php if(!empty($country)): ?>
+                                    <h4 class="widget-title">Jobs on Other Websites in <?php echo e($country->country ?? 'empty'); ?>
 
-                                    <?php endif; ?>
-                                </div>
+                                    </h4>
+                                <?php else: ?>
+                                    <h4 class="widget-title"><?php echo e(__('Jobs on Other Websites')); ?></h4>
+                                <?php endif; ?>
+                                <br>
+                                <ul class="searchList">
+                                    <!-- job start -->
+                                    <?php $count_1 = 1; ?>
+                                    <?php $__currentLoopData = $other_jobs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $job): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8">
+                                                    <div class="jobimg">
+                                                        <?php echo e(ImgUploader::print_image("other_jobs/$job->logo", 100, 100)); ?>
+
+                                                    </div>
+                                                    <div class="jobinfo">
+                                                        <h3><a href="<?php echo e(route('other.job.detail', [$job->id])); ?>"
+                                                                title="<?php echo e($job->title); ?>"><?php echo e($job->title); ?></a></h3>
+                                                        <div class="companyName"><a href="#" target="_blank"
+                                                                title=""><?php echo e($job->company_name); ?></a></div>
+                                                        <div class="location">
+                                                            <label class="fulltime"
+                                                                title="#"><?php echo e($job->job_type); ?></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4">
+                                                    <div class="listbtn"><a
+                                                            href="<?php echo e(route('other.job.detail', [$job->id])); ?>"><?php echo e(__('View Details')); ?></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p><?php echo e(str_limit(strip_tags($job->description), 150, '...')); ?></p>
+                                        </li>
+                                        <!-- job end -->
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <!-- job end -->
+                                </ul>
+                            <?php endif; ?>
+                            <?php if(isset($custom_jobs) && count($custom_jobs)): ?>
+                                <br><br><br>
+                                <?php if(!empty($country)): ?>
+                                    <h4 class="widget-title"><?php echo e(__('Custom')); ?> <?php echo e(__('Jobs')); ?> in
+                                        <?php echo e($country->country ?? 'no'); ?></h4>
+                                <?php else: ?>
+                                    <h4 class="widget-title"><?php echo e(__('Custom')); ?> <?php echo e(__('Jobs')); ?></h4>
+                                <?php endif; ?>
+                                <br>
+                                <ul class="searchList">
+                                    <!-- job start -->
+                                    <?php $count_1 = 1; ?>
+                                    <?php $__currentLoopData = $custom_jobs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customjob): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8">
+                                                    <div class="jobimg"><img
+                                                            src="<?php echo e(url('public/custom_jobs/' . $customjob->image)); ?>"
+                                                            style="max-width=100px; max-height:100px;"alt="">
+                                                    </div>
+                                                    
+                                                    <div class="jobinfo">
+                                                        <h3><a href="<?php echo e(route('custom.job.details', [$customjob->id])); ?>"
+                                                                title="<?php echo e($customjob->title); ?>"><?php echo e($customjob->title); ?></a>
+                                                        </h3>
+                                                        <div class="companyName"><a href="#" target="_blank"
+                                                                title=""><?php echo e($customjob->company_name); ?></a></div>
+                                                        <div class="location">
+                                                            <label class="fulltime"
+                                                                title="#"><?php echo e($customjob->job_type); ?></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4">
+                                                    <div class="listbtn"><a
+                                                            href="<?php echo e(route('custom.job.details', [$customjob->id])); ?>"><?php echo e(__('View Details')); ?></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p><?php echo e(str_limit(strip_tags($customjob->description), 150, '...')); ?></p>
+                                        </li>
+                                        <!-- job end -->
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <!-- job end -->
+                                </ul>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 pull-right">
+                            <!-- Sponsord By -->
+                            <div class="sidebar">
+                                <h4 class="widget-title"><?php echo e(__('Sponsord By')); ?></h4>
+                                <div class="gad"><?php echo $siteSetting->listing_page_vertical_ad; ?></div>
                             </div>
                         </div>
-                        <!-- Pagination end -->
-                        <?php if(isset($other_jobs) && count($other_jobs)): ?>
-                            <br><br><br>
-                            <?php if(!empty($country)): ?>
-                                <h4 class="widget-title">Jobs on Other Websites in <?php echo e($country->country ?? 'empty'); ?></h4>
-                            <?php else: ?>
-                                <h4 class="widget-title"><?php echo e(__('Jobs on Other Websites')); ?></h4>
-                            <?php endif; ?>
-                            <br>
-                            <ul class="searchList">
-                                <!-- job start -->
-                                <?php $count_1 = 1; ?>
-                                <?php $__currentLoopData = $other_jobs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $job): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-8">
-                                                <div class="jobimg">
-                                                    <?php echo e(ImgUploader::print_image("other_jobs/$job->logo", 100, 100)); ?></div>
-                                                <div class="jobinfo">
-                                                    <h3><a href="<?php echo e(route('other.job.detail', [$job->id])); ?>"
-                                                            title="<?php echo e($job->title); ?>"><?php echo e($job->title); ?></a></h3>
-                                                    <div class="companyName"><a href="#" target="_blank"
-                                                            title=""><?php echo e($job->company_name); ?></a></div>
-                                                    <div class="location">
-                                                        <label class="fulltime" title="#"><?php echo e($job->job_type); ?></label>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4">
-                                                <div class="listbtn"><a
-                                                        href="<?php echo e(route('other.job.detail', [$job->id])); ?>"><?php echo e(__('View Details')); ?></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><?php echo e(str_limit(strip_tags($job->description), 150, '...')); ?></p>
-                                    </li>
-                                    <!-- job end -->
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <!-- job end -->
-                            </ul>
-                        <?php endif; ?>
-                        <?php if(isset($custom_jobs) && count($custom_jobs)): ?>
-                            <br><br><br>
-                            <?php if(!empty($country)): ?>
-                                <h4 class="widget-title"><?php echo e(__('Custom')); ?> <?php echo e(__('Jobs')); ?> in
-                                    <?php echo e($country->country ?? 'no'); ?></h4>
-                            <?php else: ?>
-                                <h4 class="widget-title"><?php echo e(__('Custom')); ?> <?php echo e(__('Jobs')); ?></h4>
-                            <?php endif; ?>
-                            <br>
-                            <ul class="searchList">
-                                <!-- job start -->
-                                <?php $count_1 = 1; ?>
-                                <?php $__currentLoopData = $custom_jobs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customjob): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-8">
-                                                <div class="jobimg"><img
-                                                        src="<?php echo e(url('public/custom_jobs/' . $customjob->image)); ?>"
-                                                        style="max-width=100px; max-height:100px;"alt=""></div>
-                                                
-                                                <div class="jobinfo">
-                                                    <h3><a href="<?php echo e(route('custom.job.details', [$customjob->id])); ?>"
-                                                            title="<?php echo e($customjob->title); ?>"><?php echo e($customjob->title); ?></a>
-                                                    </h3>
-                                                    <div class="companyName"><a href="#" target="_blank"
-                                                            title=""><?php echo e($customjob->company_name); ?></a></div>
-                                                    <div class="location">
-                                                        <label class="fulltime"
-                                                            title="#"><?php echo e($customjob->job_type); ?></label>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4">
-                                                <div class="listbtn"><a
-                                                        href="<?php echo e(route('custom.job.details', [$customjob->id])); ?>"><?php echo e(__('View Details')); ?></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p><?php echo e(str_limit(strip_tags($customjob->description), 150, '...')); ?></p>
-                                    </li>
-                                    <!-- job end -->
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <!-- job end -->
-                            </ul>
-                        <?php endif; ?>
                     </div>
-                    <div class="col-lg-3 col-sm-6 pull-right">
-                        <!-- Sponsord By -->
-                        <div class="sidebar">
-                            <h4 class="widget-title"><?php echo e(__('Sponsord By')); ?></h4>
-                            <div class="gad"><?php echo $siteSetting->listing_page_vertical_ad; ?></div>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                </div>
-            </form>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
 

@@ -157,11 +157,21 @@ trait JobTrait
         $job->slug = str_slug($job->title, '-') . '-' . $job->id;
         /*         * ******************************* */
         $job->update();
+        // country slugs
         $country = Country::where('id', $request->country_id)->first();
         $country->slug = str_slug($country->country, '-');
         $countrt_slug = $country->slug;
         Country::where('id', $request->country_id)->update(['slug'=>$countrt_slug,'status' => 1]);
-
+        // state slugs
+        $state=State::where('id',$request->state_id)->first();
+        $state->slug = str_slug($state->state, '-');
+        $state_slug = $state->slug;
+        State::where('id', $request->state_id)->update(['slug'=>$state_slug,'status' => 1]);
+        // city slugs
+        $city=State::where('id',$request->city_id)->first();
+        $city->slug = str_slug($city->city, '-');
+        $city_slug = $city->slug;
+        City::where('id', $request->city_id)->update(['slug'=>$city_slug,'status' => 1]);
         /*         * ************************************ */
         /*         * ************************************ */
         $this->storeJobSkills($request, $job->id);
@@ -230,10 +240,21 @@ trait JobTrait
 
         /*         * ************************************ */
         $job->update();
+        // country slug
         $country = Country::where('id', $request->country_id)->first();
         $country->slug = str_slug($country->country, '-');
         $countrt_slug = $country->slug;
         Country::where('id', $request->country_id)->update(['slug'=>$countrt_slug,'status' => 1]);
+        // state slugs
+        $state=State::where('id',$request->state_id)->first();
+        $state->slug = str_slug($state->state, '-');
+        $state_slug = $state->slug;
+        State::where('id', $request->state_id)->update(['slug'=>$state_slug,'status' => 1]);
+        // city slugs
+        $city=City::where('id',$request->city_id)->first();
+        $city->slug = str_slug($city->city, '-');
+        $city_slug = $city->slug;
+        City::where('id', $request->city_id)->update(['slug'=>$city_slug,'status' => 1]);
         /*         * ************************************ */
         $this->storeJobSkills($request, $job->id);
         /*         * ************************************ */

@@ -23,6 +23,7 @@ use App\Helpers\DataArrayHelper;
 
 use App\OtherWebsiteJob as OtherJobs;
 use App\CustomJobs;
+use App\State;
 
 class IndexController extends Controller
 {
@@ -71,6 +72,9 @@ class IndexController extends Controller
         $other_jobs = OtherJobs::where('status', 1)->whereRaw("apply_before > '$today'")->orderBy('id', 'desc')->limit(18)->get();
         $custom_jobs = CustomJobs::where('status', 1)->whereRaw("last_date > '$today'")->orderBy('id', 'desc')->limit(18)->get();
         $country=Country::where('status',1)->orderby('id','asc')->get();
+        $country_base_state=Country::where('status',1)->with('states',function($s){
+            $s->where('status',1);
+        })->get();
         $seo = SEO::where('seo.page_title', 'like', 'front_index_page')->first();
         return view('welcome')
                         ->with('topCompanyIds', $topCompanyIds)
@@ -88,7 +92,9 @@ class IndexController extends Controller
                         ->with('seo', $seo)
                         ->with('otherJobs', $other_jobs)
                         ->with('customJobs', $custom_jobs)
-                        ->with('country',$country);
+                        ->with('country',$country)
+                        ->with('country_base_state', $country_base_state)
+                        ->with('state_base_city',$state_base_city);
     }
 
     public function setLocale(Request $request)

@@ -73,7 +73,7 @@
 
 
 
-    @if(isset($stateIdsArray) && count($stateIdsArray))
+    {{-- @if(isset($stateIdsArray) && count($stateIdsArray))
         @php $check_filters_available = true @endphp
         <!-- Jobs By State -->
             <div class="widget">
@@ -88,8 +88,8 @@
                                 $checked = (in_array($state->state_id, Request::get('state_id', array())))? 'checked="checked"':'';
                             @endphp
                             <li>
-                                <input type="checkbox" class="state_filter" name="state_id[]" id="state_{{$state->state_id}}" value="{{$state->state_id}}" {{$checked}}>
-                                <label for="state_{{$state->state_id}}"></label>
+                                <input type="checkbox" class="state_filter" name="state_id[]" id="state_{{$state->state_id ?? ''}}" value="{{$state->state_id ?? ''}}" {{$checked}}>
+                                <label for="state_{{$state->state_id ?? ''}}"></label>
                                 {{$state->state}} <span>{{App\Job::countNumJobs('state_id', $state->state_id)}}</span>
                             </li>
                         @endif
@@ -99,7 +99,7 @@
                 <button type="button" class="btn btn-sm btn-danger reset-btn" data-target=".state_filter" data-type="checkbox">Reset</button>
             </div>
             <!-- Jobs By State end-->
-    @endif
+    @endif --}}
 
 
     @if(isset($cityIdsArray) && count($cityIdsArray))

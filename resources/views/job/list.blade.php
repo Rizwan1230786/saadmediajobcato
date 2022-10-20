@@ -24,10 +24,10 @@
     <!-- Inner Page Title end -->
     <div class="listpgWraper">
         <div class="container">
-            <form action="{{ route('job.list') }}" method="get">
-                <!-- Search Result and sidebar start -->
-                <div class="row">
-                    @if (!empty($country))
+            @if (!empty($country))
+                <form action="{{ route('job.country.list',['slug'=>$country->slug]) }}" method="get">
+                    <!-- Search Result and sidebar start -->
+                    <div class="row">
                         @include('includes.countrybasejobs_list_side_bar')
                         <div class="col-lg-6 col-sm-12">
                             <!-- Search List -->
@@ -46,10 +46,11 @@
                                                         <div class="col-md-8 col-sm-8">
                                                             <div class="jobimg">{{ $company->printCompanyImage() }}</div>
                                                             <div class="jobinfo">
-                                                                <h3><a href=" {{ url('jobdetail'.'/'.$job->slug.'_in_'.$country->slug) }}"
-                                                                        title="{{ $job->title }}">{{ $job->title }}</a></h3>
+                                                                <h3><a href=" {{ url('jobdetail' . '/' . $job->slug . '_in_' . $country->slug) }}"
+                                                                        title="{{ $job->title }}">{{ $job->title }}</a>
+                                                                </h3>
                                                                 <div class="companyName"><a
-                                                                        href=" {{ url('jobdetail'.'/'.$job->slug.'_in_'.$country->slug) }}"
+                                                                        href=" {{ url('jobdetail' . '/' . $job->slug . '_in_' . $country->slug) }}"
                                                                         title="{{ $company->name }}">{{ $company->name }}</a>
                                                                 </div>
                                                                 <div class="location">
@@ -62,7 +63,7 @@
                                                         </div>
                                                         <div class="col-md-4 col-sm-4">
                                                             <div class="listbtn"><a
-                                                                    href=" {{ url('jobdetail'.'/'.$job->slug.'_in_'.$country->slug) }}">{{ __('View Details') }}</a>
+                                                                    href=" {{ url('jobdetail' . '/' . $job->slug . '_in_' . $country->slug) }}">{{ __('View Details') }}</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -81,7 +82,8 @@
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="showreslt">
-                                            {{ __('Showing Pages') }} : {{ $jobs->firstItem() }} - {{ $jobs->lastItem() }}
+                                            {{ __('Showing Pages') }} : {{ $jobs->firstItem() }} -
+                                            {{ $jobs->lastItem() }}
                                             {{ __('Total') }} {{ $jobs->total() }}
                                         </div>
                                     </div>
@@ -96,7 +98,8 @@
                             @if (isset($other_jobs) && count($other_jobs))
                                 <br><br><br>
                                 @if (!empty($country))
-                                    <h4 class="widget-title">Jobs on Other Websites in {{ $country->country ?? 'empty' }}</h4>
+                                    <h4 class="widget-title">Jobs on Other Websites in {{ $country->country ?? 'empty' }}
+                                    </h4>
                                 @else
                                     <h4 class="widget-title">{{ __('Jobs on Other Websites') }}</h4>
                                 @endif
@@ -109,21 +112,23 @@
                                             <div class="row">
                                                 <div class="col-md-8 col-sm-8">
                                                     <div class="jobimg">
-                                                        {{ ImgUploader::print_image("other_jobs/$job->logo", 100, 100) }}</div>
+                                                        {{ ImgUploader::print_image("other_jobs/$job->logo", 100, 100) }}
+                                                    </div>
                                                     <div class="jobinfo">
-                                                        <h3><a href="{{ url('other-job-detail/'.$job->id.'/'.$country->slug) }}"
+                                                        <h3><a href="{{ url('other-job-detail/' . $job->id . '/' . $country->slug) }}"
                                                                 title="{{ $job->title }}">{{ $job->title }}</a></h3>
                                                         <div class="companyName"><a href="#" target="_blank"
                                                                 title="">{{ $job->company_name }}</a></div>
                                                         <div class="location">
-                                                            <label class="fulltime" title="#">{{ $job->job_type }}</label>
+                                                            <label class="fulltime"
+                                                                title="#">{{ $job->job_type }}</label>
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-4">
                                                     <div class="listbtn"><a
-                                                            href="{{ url('other-job-detail/'.$job->id.'/'.$country->slug) }}">{{ __('View All') }}</a>
+                                                            href="{{ url('other-job-detail/' . $job->id . '/' . $country->slug) }}">{{ __('View All') }}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,7 +160,7 @@
                                                             style="max-width=100px; max-height:100px;"alt=""></div>
                                                     {{--                                    <div class="jobimg">{{ ImgUploader::print_image("custom_jobs/$customjob->logo", 100, 100) }}</div> --}}
                                                     <div class="jobinfo">
-                                                        <h3><a href="{{ url('custom-job-details/'.$customjob->id.'/'.$country->slug) }}"
+                                                        <h3><a href="{{ url('custom-job-details/' . $customjob->id . '/' . $country->slug) }}"
                                                                 title="{{ $customjob->title }}">{{ $customjob->title }}</a>
                                                         </h3>
                                                         <div class="companyName"><a href="#" target="_blank"
@@ -169,7 +174,7 @@
                                                 </div>
                                                 <div class="col-md-4 col-sm-4">
                                                     <div class="listbtn"><a
-                                                            href="{{ url('custom-job-details/'.$customjob->id.'/'.$country->slug) }}">{{ __('View Details') }}</a>
+                                                            href="{{ url('custom-job-details/' . $customjob->id . '/' . $country->slug) }}">{{ __('View Details') }}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -188,170 +193,181 @@
                                 <div class="gad">{!! $siteSetting->listing_page_vertical_ad !!}</div>
                             </div>
                         </div>
-                   @else
-                    @include('includes.job_list_side_bar')
-                    <div class="col-lg-6 col-sm-12">
-                        <!-- Search List -->
-                        <ul class="searchList">
-                            <!-- job start -->
-                            @if (isset($jobs) && count($jobs))
-                                <?php $count_1 = 1; ?>
-                                @foreach ($jobs as $job)
-                                    @php $company = $job->getCompany(); @endphp
-                                    @if (isset($company))
-                                        @if ($count_1 == 7)
-                                            <li class="inpostad">{!! $siteSetting->listing_page_horizontal_ad !!}</li>
-                                        @else
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="jobimg">{{ $company->printCompanyImage() }}</div>
-                                                        <div class="jobinfo">
-                                                            <h3><a href="{{ route('job.detail', [$job->slug]) }}"
-                                                                    title="{{ $job->title }}">{{ $job->title }}</a></h3>
-                                                            <div class="companyName"><a
-                                                                    href="{{ route('company.detail', $company->slug) }}"
-                                                                    title="{{ $company->name }}">{{ $company->name }}</a>
+                    </div>
+                    @include('includes.country.states');
+                </form>
+            @else
+                <form action="{{ route('job.list') }}" method="get">
+                    <div class="row">
+                        @include('includes.job_list_side_bar')
+                        <div class="col-lg-6 col-sm-12">
+                            <!-- Search List -->
+                            <ul class="searchList">
+                                <!-- job start -->
+                                @if (isset($jobs) && count($jobs))
+                                    <?php $count_1 = 1; ?>
+                                    @foreach ($jobs as $job)
+                                        @php $company = $job->getCompany(); @endphp
+                                        @if (isset($company))
+                                            @if ($count_1 == 7)
+                                                <li class="inpostad">{!! $siteSetting->listing_page_horizontal_ad !!}</li>
+                                            @else
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-md-8 col-sm-8">
+                                                            <div class="jobimg">{{ $company->printCompanyImage() }}</div>
+                                                            <div class="jobinfo">
+                                                                <h3><a href="{{ route('job.detail', [$job->slug]) }}"
+                                                                        title="{{ $job->title }}">{{ $job->title }}</a>
+                                                                </h3>
+                                                                <div class="companyName"><a
+                                                                        href="{{ route('company.detail', $company->slug) }}"
+                                                                        title="{{ $company->name }}">{{ $company->name }}</a>
+                                                                </div>
+                                                                <div class="location">
+                                                                    <label class="fulltime"
+                                                                        title="{{ $job->getJobType('job_type') }}">{{ $job->getJobType('job_type') }}</label>
+                                                                    - <span>{{ $job->getCity('city') }}</span>
+                                                                </div>
                                                             </div>
-                                                            <div class="location">
-                                                                <label class="fulltime"
-                                                                    title="{{ $job->getJobType('job_type') }}">{{ $job->getJobType('job_type') }}</label>
-                                                                - <span>{{ $job->getCity('city') }}</span>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-4">
+                                                            <div class="listbtn"><a
+                                                                    href="{{ route('job.detail', [$job->slug]) }}">{{ __('View Details') }}</a>
                                                             </div>
                                                         </div>
-                                                        <div class="clearfix"></div>
                                                     </div>
-                                                    <div class="col-md-4 col-sm-4">
-                                                        <div class="listbtn"><a
-                                                                href="{{ route('job.detail', [$job->slug]) }}">{{ __('View Details') }}</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <p>{{ str_limit(strip_tags($job->description), 150, '...') }}</p>
-                                            </li>
+                                                    <p>{{ str_limit(strip_tags($job->description), 150, '...') }}</p>
+                                                </li>
+                                            @endif
+                                            <?php $count_1++; ?>
                                         @endif
-                                        <?php $count_1++; ?>
-                                    @endif
-                                    <!-- job end -->
-                                @endforeach
-                            @endif
-                            <!-- job end -->
-                        </ul>
-                        <!-- Pagination Start -->
-                        <div class="pagiWrap">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="showreslt">
-                                        {{ __('Showing Pages') }} : {{ $jobs->firstItem() }} - {{ $jobs->lastItem() }}
-                                        {{ __('Total') }} {{ $jobs->total() }}
+                                        <!-- job end -->
+                                    @endforeach
+                                @endif
+                                <!-- job end -->
+                            </ul>
+                            <!-- Pagination Start -->
+                            <div class="pagiWrap">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="showreslt">
+                                            {{ __('Showing Pages') }} : {{ $jobs->firstItem() }} -
+                                            {{ $jobs->lastItem() }}
+                                            {{ __('Total') }} {{ $jobs->total() }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 text-right">
+                                        @if (isset($jobs) && count($jobs))
+                                            {{ $jobs->appends(request()->query())->links() }}
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="col-md-7 text-right">
-                                    @if (isset($jobs) && count($jobs))
-                                        {{ $jobs->appends(request()->query())->links() }}
-                                    @endif
-                                </div>
+                            </div>
+                            <!-- Pagination end -->
+                            @if (isset($other_jobs) && count($other_jobs))
+                                <br><br><br>
+                                @if (!empty($country))
+                                    <h4 class="widget-title">Jobs on Other Websites in {{ $country->country ?? 'empty' }}
+                                    </h4>
+                                @else
+                                    <h4 class="widget-title">{{ __('Jobs on Other Websites') }}</h4>
+                                @endif
+                                <br>
+                                <ul class="searchList">
+                                    <!-- job start -->
+                                    <?php $count_1 = 1; ?>
+                                    @foreach ($other_jobs as $job)
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8">
+                                                    <div class="jobimg">
+                                                        {{ ImgUploader::print_image("other_jobs/$job->logo", 100, 100) }}
+                                                    </div>
+                                                    <div class="jobinfo">
+                                                        <h3><a href="{{ route('other.job.detail', [$job->id]) }}"
+                                                                title="{{ $job->title }}">{{ $job->title }}</a></h3>
+                                                        <div class="companyName"><a href="#" target="_blank"
+                                                                title="">{{ $job->company_name }}</a></div>
+                                                        <div class="location">
+                                                            <label class="fulltime"
+                                                                title="#">{{ $job->job_type }}</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4">
+                                                    <div class="listbtn"><a
+                                                            href="{{ route('other.job.detail', [$job->id]) }}">{{ __('View Details') }}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p>{{ str_limit(strip_tags($job->description), 150, '...') }}</p>
+                                        </li>
+                                        <!-- job end -->
+                                    @endforeach
+                                    <!-- job end -->
+                                </ul>
+                            @endif
+                            @if (isset($custom_jobs) && count($custom_jobs))
+                                <br><br><br>
+                                @if (!empty($country))
+                                    <h4 class="widget-title">{{ __('Custom') }} {{ __('Jobs') }} in
+                                        {{ $country->country ?? 'no' }}</h4>
+                                @else
+                                    <h4 class="widget-title">{{ __('Custom') }} {{ __('Jobs') }}</h4>
+                                @endif
+                                <br>
+                                <ul class="searchList">
+                                    <!-- job start -->
+                                    <?php $count_1 = 1; ?>
+                                    @foreach ($custom_jobs as $customjob)
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8">
+                                                    <div class="jobimg"><img
+                                                            src="{{ url('public/custom_jobs/' . $customjob->image) }}"
+                                                            style="max-width=100px; max-height:100px;"alt="">
+                                                    </div>
+                                                    {{--                                    <div class="jobimg">{{ ImgUploader::print_image("custom_jobs/$customjob->logo", 100, 100) }}</div> --}}
+                                                    <div class="jobinfo">
+                                                        <h3><a href="{{ route('custom.job.details', [$customjob->id]) }}"
+                                                                title="{{ $customjob->title }}">{{ $customjob->title }}</a>
+                                                        </h3>
+                                                        <div class="companyName"><a href="#" target="_blank"
+                                                                title="">{{ $customjob->company_name }}</a></div>
+                                                        <div class="location">
+                                                            <label class="fulltime"
+                                                                title="#">{{ $customjob->job_type }}</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4">
+                                                    <div class="listbtn"><a
+                                                            href="{{ route('custom.job.details', [$customjob->id]) }}">{{ __('View Details') }}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p>{{ str_limit(strip_tags($customjob->description), 150, '...') }}</p>
+                                        </li>
+                                        <!-- job end -->
+                                    @endforeach
+                                    <!-- job end -->
+                                </ul>
+                            @endif
+                        </div>
+                        <div class="col-lg-3 col-sm-6 pull-right">
+                            <!-- Sponsord By -->
+                            <div class="sidebar">
+                                <h4 class="widget-title">{{ __('Sponsord By') }}</h4>
+                                <div class="gad">{!! $siteSetting->listing_page_vertical_ad !!}</div>
                             </div>
                         </div>
-                        <!-- Pagination end -->
-                        @if (isset($other_jobs) && count($other_jobs))
-                            <br><br><br>
-                            @if (!empty($country))
-                                <h4 class="widget-title">Jobs on Other Websites in {{ $country->country ?? 'empty' }}</h4>
-                            @else
-                                <h4 class="widget-title">{{ __('Jobs on Other Websites') }}</h4>
-                            @endif
-                            <br>
-                            <ul class="searchList">
-                                <!-- job start -->
-                                <?php $count_1 = 1; ?>
-                                @foreach ($other_jobs as $job)
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-8">
-                                                <div class="jobimg">
-                                                    {{ ImgUploader::print_image("other_jobs/$job->logo", 100, 100) }}</div>
-                                                <div class="jobinfo">
-                                                    <h3><a href="{{ route('other.job.detail', [$job->id]) }}"
-                                                            title="{{ $job->title }}">{{ $job->title }}</a></h3>
-                                                    <div class="companyName"><a href="#" target="_blank"
-                                                            title="">{{ $job->company_name }}</a></div>
-                                                    <div class="location">
-                                                        <label class="fulltime" title="#">{{ $job->job_type }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4">
-                                                <div class="listbtn"><a
-                                                        href="{{ route('other.job.detail', [$job->id]) }}">{{ __('View Details') }}</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p>{{ str_limit(strip_tags($job->description), 150, '...') }}</p>
-                                    </li>
-                                    <!-- job end -->
-                                @endforeach
-                                <!-- job end -->
-                            </ul>
-                        @endif
-                        @if (isset($custom_jobs) && count($custom_jobs))
-                            <br><br><br>
-                            @if (!empty($country))
-                                <h4 class="widget-title">{{ __('Custom') }} {{ __('Jobs') }} in
-                                    {{ $country->country ?? 'no' }}</h4>
-                            @else
-                                <h4 class="widget-title">{{ __('Custom') }} {{ __('Jobs') }}</h4>
-                            @endif
-                            <br>
-                            <ul class="searchList">
-                                <!-- job start -->
-                                <?php $count_1 = 1; ?>
-                                @foreach ($custom_jobs as $customjob)
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-8 col-sm-8">
-                                                <div class="jobimg"><img
-                                                        src="{{ url('public/custom_jobs/' . $customjob->image) }}"
-                                                        style="max-width=100px; max-height:100px;"alt=""></div>
-                                                {{--                                    <div class="jobimg">{{ ImgUploader::print_image("custom_jobs/$customjob->logo", 100, 100) }}</div> --}}
-                                                <div class="jobinfo">
-                                                    <h3><a href="{{ route('custom.job.details', [$customjob->id]) }}"
-                                                            title="{{ $customjob->title }}">{{ $customjob->title }}</a>
-                                                    </h3>
-                                                    <div class="companyName"><a href="#" target="_blank"
-                                                            title="">{{ $customjob->company_name }}</a></div>
-                                                    <div class="location">
-                                                        <label class="fulltime"
-                                                            title="#">{{ $customjob->job_type }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-4">
-                                                <div class="listbtn"><a
-                                                        href="{{ route('custom.job.details', [$customjob->id]) }}">{{ __('View Details') }}</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p>{{ str_limit(strip_tags($customjob->description), 150, '...') }}</p>
-                                    </li>
-                                    <!-- job end -->
-                                @endforeach
-                                <!-- job end -->
-                            </ul>
-                        @endif
                     </div>
-                    <div class="col-lg-3 col-sm-6 pull-right">
-                        <!-- Sponsord By -->
-                        <div class="sidebar">
-                            <h4 class="widget-title">{{ __('Sponsord By') }}</h4>
-                            <div class="gad">{!! $siteSetting->listing_page_vertical_ad !!}</div>
-                        </div>
-                    </div>
-                    @endif
-                </div>
-            </form>
+                </form>
+            @endif
         </div>
     </div>
 

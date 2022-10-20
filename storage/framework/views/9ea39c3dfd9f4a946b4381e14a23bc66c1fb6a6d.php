@@ -26,33 +26,7 @@
 
 
 
-    <?php if(isset($stateIdsArray) && count($stateIdsArray)): ?>
-        <?php $check_filters_available = true ?>
-        <!-- Jobs By State -->
-            <div class="widget">
-                <h4 class="widget-title"><?php echo e(__('Jobs By State')); ?></h4>
-                <ul class="optionlist view_more_ul">
-                    <?php $__currentLoopData = $stateIdsArray; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$state_id): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php
-                            $state = App\State::where('state_id','=',$state_id->id)->lang()->active()->first();
-                        ?>
-                        <?php if(null !== $state): ?>
-                            <?php
-                                $checked = (in_array($state->state_id, Request::get('state_id', array())))? 'checked="checked"':'';
-                            ?>
-                            <li>
-                                <input type="checkbox" class="state_filter" name="state_id[]" id="state_<?php echo e($state->state_id); ?>" value="<?php echo e($state->state_id); ?>" <?php echo e($checked); ?>>
-                                <label for="state_<?php echo e($state->state_id); ?>"></label>
-                                <?php echo e($state->state); ?> <span><?php echo e(App\Job::countNumJobs('state_id', $state->state_id)); ?></span>
-                            </li>
-                        <?php endif; ?>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </ul>
-                <span class="text text-primary view_more hide_vm"><?php echo e(__('View More')); ?></span>
-                <button type="button" class="btn btn-sm btn-danger reset-btn" data-target=".state_filter" data-type="checkbox">Reset</button>
-            </div>
-            <!-- Jobs By State end-->
-    <?php endif; ?>
+    
 
 
     <?php if(isset($cityIdsArray) && count($cityIdsArray)): ?>

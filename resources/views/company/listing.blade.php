@@ -15,7 +15,7 @@
         <div class="pageSearch">
             <div class="container">
                 <section id="joblisting-header" role="search" class="searchform">
-                    <form id="top-search" method="GET" action="{{ url('company-in-' . $country->slug) }}">
+                    <form id="top-search" method="GET" action="{{ route('company.listing.country',['slug'=>$country->slug]) }}">
                         <div class="row">
                             <div class="col-lg-9">
                                 <input type="text" name="search" value="{{ Request::get('search', '') }}"

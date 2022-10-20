@@ -74,7 +74,7 @@
                                         <li class="row">
                                             <div class="col-md-4 col-xs-5"><?php echo e(__('Company')); ?>:</div>
                                             <div class="col-md-8 col-xs-7"><a
-                                                    href="<?php echo e(url('company-detail'.'/'.$company->slug.'_in_'.$country->country)); ?>"><?php echo e($company->name); ?></a>
+                                                    href="<?php echo e(url('company-detail'.'/'.$company->slug.'_in_'.$country->slug)); ?>"><?php echo e($company->name); ?></a>
                                             </div>
                                         </li>
                                         <li class="row">
@@ -195,13 +195,13 @@
                         <div class="companyinfo">
                             <h3><i class="fa fa-building-o" aria-hidden="true"></i> <?php echo e(__('Company Overview')); ?></h3>
                             <div class="companylogo"><a
-                                    href="<?php echo e(url('company-detail'.'/'.$company->slug.'_in_'.$country->country)); ?>"><?php echo e($company->printCompanyImage()); ?></a>
+                                    href="<?php echo e(url('company-detail'.'/'.$company->slug.'_in_'.$country->slug)); ?>"><?php echo e($company->printCompanyImage()); ?></a>
                             </div>
                             <div class="title"><a
-                                    href="<?php echo e(url('company-detail'.'/'.$company->slug.'_in_'.$country->country)); ?>"><?php echo e($company->name); ?></a></div>
+                                    href="<?php echo e(url('company-detail'.'/'.$company->slug.'_in_'.$country->slug)); ?>"><?php echo e($company->name); ?></a></div>
                             <div class="ptext"><?php echo e($company->getLocation()); ?></div>
                             <div class="opening">
-                                <a href="<?php echo e(url('company-detail'.'/'.$company->slug.'_in_'.$country->country)); ?>">
+                                <a href="<?php echo e(url('company-detail'.'/'.$company->slug.'_in_'.$country->slug)); ?>">
                                     <?php echo e(App\Company::countNumJobs('company_id', $company->id)); ?>
 
                                     <?php echo e(__('Current Jobs Openings')); ?>
@@ -231,12 +231,12 @@
                                                 <!--Job start-->
                                                 <li>
                                                     <div class="jobinfo">
-                                                        <h3><a href="<?php echo e(url('jobdetail'.'/'.$relatedJob->slug.'_in_'.$country->country)); ?>"
+                                                        <h3><a href="<?php echo e(url('jobdetail'.'/'.$relatedJob->slug.'_in_'.$country->slug)); ?>"
                                                                 title="<?php echo e($relatedJob->title); ?>"><?php echo e($relatedJob->title); ?></a>
                                                         </h3>
                                                         <?php if($relatedJobCompany->country_id == $country->id): ?>
                                                         <div class="companyName"><a
-                                                                href="<?php echo e(url('company-detail'.'/'.$relatedJobCompany->slug.'_in_'.$country->country)); ?>"
+                                                                href="<?php echo e(url('company-detail'.'/'.$relatedJobCompany->slug.'_in_'.$country->slug)); ?>"
                                                                 title="<?php echo e($relatedJobCompany->name); ?>"><?php echo e($relatedJobCompany->name); ?></a>
                                                         </div>
                                                         <?php endif; ?>
@@ -536,7 +536,11 @@
             </div>
         <?php endif; ?>
     </div>
-    <?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php if(!empty($country)): ?>
+        <?php echo $__env->make('includes.countrybase_footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php else: ?>
+        <?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('styles'); ?>
     <style type="text/css">
